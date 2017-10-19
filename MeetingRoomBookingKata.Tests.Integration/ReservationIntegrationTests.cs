@@ -21,15 +21,21 @@ namespace MeetingRoomBookingKata.Tests.Integration
         private TestServer server;
 
         [OneTimeSetUp]
-        public void FixtureInit()
+        public void TestsInit()
         {
             server = TestServer.Create<Startup>();
         }
 
         [OneTimeTearDown]
-        public void FixtureDispose()
+        public void TestsDispose()
         {
             server.Dispose();
+        }
+
+        [SetUp]
+        public void FixtureInit()
+        {
+            CurrentReservationRepository.Clear();
         }
 
         private IReservationRepository CurrentReservationRepository => AutofacConfig.Container.Resolve<IReservationRepository>();
@@ -37,7 +43,6 @@ namespace MeetingRoomBookingKata.Tests.Integration
         [Test]
         public void MakingReservationOnEmptyDay_ShouldReturnReservationId()
         {
-            CurrentReservationRepository.Clear();
             var response = MakeReservation(new DateTime(2018, 01, 02, 12, 00, 00), 1);
 
             var result = response.Content.ReadJsonAsAsync<Guid>().Result;
@@ -49,7 +54,6 @@ namespace MeetingRoomBookingKata.Tests.Integration
         [Test]
         public void MakingReservationOnExistingSlot_ShouldReturnConflict()
         {
-            CurrentReservationRepository.Clear();
             FakeReservation(1, new DateTime(2018, 01, 02, 10, 00, 00));
             FakeReservation(1, new DateTime(2018, 01, 02, 12, 00, 00));
             FakeReservation(1, new DateTime(2018, 01, 02, 14, 00, 00));
@@ -67,7 +71,6 @@ namespace MeetingRoomBookingKata.Tests.Integration
         [Test]
         public void DeletingExistingReservation_ShouldReturnOk()
         {
-            CurrentReservationRepository.Clear();
             var id = Guid.NewGuid();
             FakeReservation(1, new DateTime(2018, 01, 02, 12, 00, 00), id);
 
@@ -79,8 +82,6 @@ namespace MeetingRoomBookingKata.Tests.Integration
         [Test]
         public void DeletingNotExistingReservation_ShouldReturnNotFound()
         {
-            CurrentReservationRepository.Clear();
-            
             var response = server.HttpClient.DeleteAsync($"/reservations/{Guid.NewGuid()}").Result;
             
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
