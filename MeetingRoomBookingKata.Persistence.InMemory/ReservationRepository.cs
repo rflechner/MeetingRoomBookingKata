@@ -10,7 +10,7 @@ namespace MeetingRoomBookingKata.Persistence.InMemory
 {
     public class ReservationRepository : IReservationRepository
     {
-        private ConcurrentDictionary<Guid, Reservation> reservations;
+        private readonly ConcurrentDictionary<Guid, Reservation> reservations;
 
         public ReservationRepository()
         {
