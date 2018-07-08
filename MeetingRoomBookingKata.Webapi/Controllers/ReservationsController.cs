@@ -51,7 +51,7 @@ namespace MeetingRoomBookingKata.WebApi.Controllers
             var bookingResult = reservationService.BookRoom(room, user, timeSlot);
 
             if (bookingResult.Status == BookingStatus.Accepted)
-                return Ok(bookingResult.ReservationId);
+                return Content(HttpStatusCode.Accepted, bookingResult.ReservationId);
 
             var availableSlotStarts = reservationService.GetBookableTimeSlots(room, timeSlot).Select(s => s.Start).ToList();
 
@@ -63,7 +63,7 @@ namespace MeetingRoomBookingKata.WebApi.Controllers
         {
             if (reservationService.CancelReservation(id))
                 return Ok();
-
+            
             return NotFound();
         }
     }

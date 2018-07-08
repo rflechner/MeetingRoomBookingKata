@@ -47,7 +47,7 @@ namespace MeetingRoomBookingKata.Tests.Integration
 
             var result = response.Content.ReadJsonAsAsync<Guid>().Result;
 
-            Assert.AreEqual(200, (int) response.StatusCode);
+            Assert.AreEqual(202, (int) response.StatusCode);
             Assert.AreNotEqual(Guid.Empty, result);
         }
 
