@@ -1,4 +1,6 @@
 
+# Sujet du Kata
+
 On souhaite exposer une API pour réserver des salles de réunion.
 Cette API permet de
 - Lister des salles 
@@ -24,4 +26,13 @@ Le but de ce kata est de montrer
 - Vous incorporerez https://www.nuget.org/packages/Swashbuckle pour exposer le swagger de cette API et interagir avec dynamiquement (« try out »).
 - Le swagger doit exposer des valeurs exemple (payload in/out de chaque operation)
 - xDD : a votre libre convenance
+
+
+# Réalisation 
+
+Lors de la réalisation, j'ai fait attention à :
+ - bien respecter la sémantique REST.
+ - documenter les APIs avec Swagger.
+ - écrire les tests de la logique métier avec SpecFlow ( méthodologie BDD ).
+ - écrire des tests d'intégration avec Owin.Testing.
 
